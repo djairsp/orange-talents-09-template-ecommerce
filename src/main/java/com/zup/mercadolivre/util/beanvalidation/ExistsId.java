@@ -1,4 +1,4 @@
-package com.zup.mercadolivre.beanvalidation;
+package com.zup.mercadolivre.util.beanvalidation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

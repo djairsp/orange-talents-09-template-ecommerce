@@ -1,7 +1,7 @@
 package com.zup.mercadolivre.novacategoria;
 
-import com.zup.mercadolivre.beanvalidation.ExistsId;
-import com.zup.mercadolivre.beanvalidation.UniqueValue;
+import com.zup.mercadolivre.util.beanvalidation.ExistsId;
+import com.zup.mercadolivre.util.beanvalidation.UniqueValue;
 import com.zup.mercadolivre.model.Categoria;
 
 import javax.persistence.EntityManager;

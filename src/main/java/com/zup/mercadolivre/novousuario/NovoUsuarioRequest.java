@@ -1,7 +1,6 @@
 package com.zup.mercadolivre.novousuario;
 
 import com.zup.mercadolivre.model.Usuario;
-import com.zup.mercadolivre.beanvalidation.UniqueValue;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;

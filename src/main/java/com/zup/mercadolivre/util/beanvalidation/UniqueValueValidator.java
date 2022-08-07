@@ -1,4 +1,4 @@
-package com.zup.mercadolivre.beanvalidation;
+package com.zup.mercadolivre.util.beanvalidation;
 
 import org.springframework.util.Assert;
 
@@ -9,7 +9,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
-public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> {
+public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Object> {
 
     private String domainAttribute;
     private Class<?> klass;
@@ -17,7 +17,7 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> 
     private EntityManager manager;
 
     @Override
-    public void initialize(ExistsId constraintAnnotation) {
+    public void initialize(UniqueValue constraintAnnotation) {
         domainAttribute = constraintAnnotation.fieldName();
         klass = constraintAnnotation.domainClass();
     }
@@ -28,6 +28,6 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> 
        query.setParameter("value", value);
        List<?> list = query.getResultList();
        Assert.state(list.size() <=1, "Foi encontrado mais de um "+klass+" com o atributo " + domainAttribute +" = "+ value);
-       return !list.isEmpty();
+       return list.isEmpty();
     }
 }
