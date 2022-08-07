@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import java.time.LocalDateTime;
 
 @Entity
 public class Usuario {
@@ -25,14 +27,12 @@ public class Usuario {
     @Length( min = 6)
     private String senha;
 
+    @PastOrPresent
+    private LocalDateTime criado;
+
     @Deprecated
     public Usuario() {}
 
-    /**
-     *
-     * @param email
-     * @param senha string em texto limpo
-     */
     public Usuario(@Email @NotBlank String email,
                    @Valid @NotNull SenhaLimpa senha) {
 
@@ -41,6 +41,7 @@ public class Usuario {
 
         this.email = email;
         this.senha = senha.hash();
+        this.criado = LocalDateTime.now();
     }
 
     @Override

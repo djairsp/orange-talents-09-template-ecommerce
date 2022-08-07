@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,6 +20,14 @@ public class ControllerExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ValidationErrorOutputDto handleValidationError(MethodArgumentNotValidException ex) {
+        List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+
+        return handleValidationErrors(globalErrors, fieldErrors);
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -27,7 +36,7 @@ public class ControllerExceptionHandler {
         List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
-        return handleValidationError(globalErrors, fieldErrors);
+        return handleValidationErrors(globalErrors, fieldErrors);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -36,10 +45,11 @@ public class ControllerExceptionHandler {
         List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
-        return handleValidationError(globalErrors, fieldErrors);
+        return handleValidationErrors(globalErrors, fieldErrors);
     }
 
-    public ValidationErrorOutputDto handleValidationError(List<ObjectError> globalErrors, List<FieldError> fieldErrors){
+
+    public ValidationErrorOutputDto handleValidationErrors(List<ObjectError> globalErrors, List<FieldError> fieldErrors){
         ValidationErrorOutputDto validationErrorOutputDto = new ValidationErrorOutputDto();
         globalErrors.forEach(error -> validationErrorOutputDto.addError(getErrorMessage(error)));
 
