@@ -3,7 +3,6 @@ package com.zup.mercadolivre.novousuario;
 import com.zup.mercadolivre.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class NovoUsuarioController {
 
     @PostMapping
     @Transactional
-    public String criarUsuario(@RequestBody @Valid NovoUsuarioRequest request){
+    public String create(@RequestBody @Valid NovoUsuarioRequest request){
         Usuario usuario = request.toModel();
         manager.persist(usuario);
         return usuario.toString();

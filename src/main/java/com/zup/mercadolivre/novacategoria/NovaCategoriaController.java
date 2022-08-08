@@ -20,7 +20,7 @@ public class NovaCategoriaController {
 
     @PostMapping
     @Transactional
-    public String criarCategoria(@RequestBody @Valid NovaCategoriaRequest request) {
+    public String create(@RequestBody @Valid NovaCategoriaRequest request) {
         Categoria categoria = request.toModel(entityManager);
         entityManager.persist(categoria);
         return categoria.toString();
