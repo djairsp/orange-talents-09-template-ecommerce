@@ -19,6 +19,7 @@ public class CaracteristicaProduto {
     @ManyToOne
     private Produto produto;
 
+    @Deprecated
     public CaracteristicaProduto() {
     }
 
@@ -26,6 +27,15 @@ public class CaracteristicaProduto {
         this.nome = nome;
         this.descricao = descricao;
         this.produto = produto;
+    }
+
+    @Override
+    public String toString() {
+        return "CaracteristicaProduto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                '}';
     }
 
     public String getNome() {

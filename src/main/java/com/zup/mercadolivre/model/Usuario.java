@@ -64,4 +64,22 @@ public class Usuario {
     public String getSenha() {
         return senha;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Usuario)) return false;
+
+        Usuario usuario = (Usuario) o;
+
+        if (email != null ? !email.equals(usuario.email) : usuario.email != null) return false;
+        return senha != null ? senha.equals(usuario.senha) : usuario.senha == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = email != null ? email.hashCode() : 0;
+        result = 31 * result + (senha != null ? senha.hashCode() : 0);
+        return result;
+    }
 }

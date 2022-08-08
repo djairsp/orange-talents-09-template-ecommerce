@@ -9,9 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -39,7 +37,10 @@ public class Produto {
     private LocalDateTime criado;
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<CaracteristicaProduto> caracteristicaProdutos = new HashSet<>();
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private Set<ImagemProduto> imagens = new HashSet<>();
 
+    @Deprecated
     public Produto() {}
 
     public Produto(@NotBlank String nome, @NotNull @Min(20) BigDecimal valorProduto,
@@ -64,7 +65,8 @@ public class Produto {
     @Override
     public String toString() {
         return "Produto{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", valorProduto=" + valorProduto +
                 ", quantidadeDisponivel=" + quantidadeDisponivel +
                 ", descricao='" + descricao + '\'' +
@@ -72,6 +74,7 @@ public class Produto {
                 ", dono=" + dono +
                 ", criado=" + criado +
                 ", caracteristicaProdutos=" + caracteristicaProdutos +
+                ", imagens=" + imagens +
                 '}';
     }
 
@@ -105,5 +108,30 @@ public class Produto {
 
     public Set<CaracteristicaProduto> getCaracteristicaProdutos() {
         return caracteristicaProdutos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produto)) return false;
+        Produto produto = (Produto) o;
+        return nome.equals(produto.nome) && caracteristicaProdutos.equals(produto.caracteristicaProdutos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, caracteristicaProdutos);
+    }
+
+    public void associarImagens(Set<String> links) {
+        Set<ImagemProduto> imagens = links.stream()
+                .map(linkImagem -> new ImagemProduto(this, linkImagem))
+                .collect(Collectors.toSet());
+
+        this.imagens.addAll(imagens);
+    }
+
+    public boolean pertenceAoUsuario(Usuario possivelDono) {
+        return this.dono.equals(possivelDono);
     }
 }
