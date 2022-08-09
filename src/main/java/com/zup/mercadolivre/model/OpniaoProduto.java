@@ -43,8 +43,42 @@ public class OpniaoProduto {
                 ", nota=" + nota +
                 ", titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", produto=" + produto +
                 ", consumidor=" + consumidor +
                 '}';
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OpniaoProduto)) return false;
+
+        OpniaoProduto that = (OpniaoProduto) o;
+
+        if (titulo != null ? !titulo.equals(that.titulo) : that.titulo != null) return false;
+        if (descricao != null ? !descricao.equals(that.descricao) : that.descricao != null) return false;
+        if (produto != null ? !produto.equals(that.produto) : that.produto != null) return false;
+        return consumidor != null ? consumidor.equals(that.consumidor) : that.consumidor == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = titulo != null ? titulo.hashCode() : 0;
+        result = 31 * result + (descricao != null ? descricao.hashCode() : 0);
+        result = 31 * result + (produto != null ? produto.hashCode() : 0);
+        result = 31 * result + (consumidor != null ? consumidor.hashCode() : 0);
+        return result;
     }
 }

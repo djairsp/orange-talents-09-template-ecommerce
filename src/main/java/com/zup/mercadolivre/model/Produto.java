@@ -1,6 +1,7 @@
 package com.zup.mercadolivre.model;
 
 
+import com.zup.mercadolivre.negocio.Opnioes;
 import com.zup.mercadolivre.novoproduto.NovoCaracteristicasRequest;
 import org.springframework.util.Assert;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Entity
@@ -39,6 +41,10 @@ public class Produto {
     private Set<CaracteristicaProduto> caracteristicaProdutos = new HashSet<>();
     @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
     private Set<ImagemProduto> imagens = new HashSet<>();
+    @OneToMany(mappedBy = "produto")
+    private Set<PerguntaProduto> perguntas = new HashSet<>();
+    @OneToMany(mappedBy = "produto")
+    private Set<OpniaoProduto> opnioesProdutos = new HashSet<>();
 
     @Deprecated
     public Produto() {}
@@ -133,5 +139,23 @@ public class Produto {
 
     public boolean pertenceAoUsuario(Usuario possivelDono) {
         return this.dono.equals(possivelDono);
+    }
+
+    public <T> Set<T> mapeiaCaracteristicas(Function<CaracteristicaProduto, T> functionMap){
+        return this.caracteristicaProdutos.stream().map(functionMap).collect(Collectors.toSet());
+    }
+
+    public <T> Set<T> mapeiaImages(Function<ImagemProduto, T> functionMap){
+        return this.imagens.stream().map(functionMap).collect(Collectors.toSet());
+    }
+
+    public <T> Set<T> mapeiaPerguntas(Function<PerguntaProduto, T> functionMap){
+        return this.perguntas.stream().map(functionMap).collect(Collectors.toSet());
+    }
+
+
+
+    public Opnioes getOpnioes(){
+        return new Opnioes(this.opnioesProdutos);
     }
 }

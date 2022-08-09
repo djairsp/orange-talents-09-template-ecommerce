@@ -41,8 +41,15 @@ public class PerguntaProduto {
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", pergunta='" + pergunta + '\'' +
-                ", produto=" + produto +
                 ", consumidor=" + consumidor +
                 '}';
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getPergunta() {
+        return pergunta;
     }
 }
