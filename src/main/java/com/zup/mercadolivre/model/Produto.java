@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.net.BindException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
@@ -153,9 +154,16 @@ public class Produto {
         return this.perguntas.stream().map(functionMap).collect(Collectors.toSet());
     }
 
-
-
     public Opnioes getOpnioes(){
         return new Opnioes(this.opnioesProdutos);
+    }
+
+    public boolean abaterEstoque(@Positive int quantidade) {
+        Assert.isTrue(quantidade > 0, "A quantidade de produtos no estoque deve ser maior que zero!!!");
+        if(quantidade <= this.quantidadeDisponivel){
+            this.quantidadeDisponivel-=quantidade;
+            return true;
+        }
+        return false;
     }
 }
