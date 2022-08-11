@@ -13,6 +13,7 @@ public class NovaCategoriaRequest {
     @NotBlank
     @UniqueValue(domainClass = Categoria.class, fieldName = "nome")
     private String nome;
+    ///sempre vai dar erro no primeiro cadastro, corrigir
     @Positive
     @ExistsId(domainClass = Categoria.class, fieldName = "id")
     private Long idCategoriaMae;
