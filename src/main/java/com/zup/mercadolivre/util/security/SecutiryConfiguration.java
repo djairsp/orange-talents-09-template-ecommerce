@@ -43,6 +43,8 @@ public class SecutiryConfiguration {
                 .antMatchers(HttpMethod.POST, "/usuarios").permitAll()
                 .antMatchers(HttpMethod.POST, "/notas-fiscais").permitAll()
                 .antMatchers(HttpMethod.POST, "/ranking").permitAll()
+                .antMatchers(HttpMethod.GET, "/actuator").permitAll()
+                .antMatchers(HttpMethod.GET, "/actuator/prometheus").permitAll()
                 .anyRequest().authenticated()
                 .and()
                     .cors()
